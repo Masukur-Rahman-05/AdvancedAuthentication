@@ -191,7 +191,7 @@ export const forgotPassword = async (req, res) => {
 
     const resetPasswordToken = crypto.randomBytes(32).toString("hex");
     const resetPasswordExpire = Date.now() + 15 * 60 * 1000;
-    const resetLink = `${process.env.CLIENT_URI}/auth/reset-password/${resetPasswordToken}`;
+    const resetLink = `${process.env.CLIENT_URL}/auth/reset-password/${resetPasswordToken}`;
 
     user.resetPasswordToken = resetPasswordToken;
     user.resetPasswordExpire = resetPasswordExpire;
