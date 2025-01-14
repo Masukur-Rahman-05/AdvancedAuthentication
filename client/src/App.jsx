@@ -4,7 +4,6 @@ import SignupPage from "./pages/signup/Signup.jsx";
 import VerifyEmailPage from "./pages/VerifyEmail.jsx";
 import LoginPage from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
-import RouteGuard from "./config/RouteGuard.jsx";
 import AuthenticatedRoutes from "./config/AuthenticatedRoutes.jsx";
 import UnauthenticatedRoutes from "./config/UnAuthenticatedRoutes.jsx";
 import { useDispatch, useSelector } from "react-redux";

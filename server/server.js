@@ -22,6 +22,16 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 
 
+const connectDatabase = async () => {
+  try {
+    connectDB();
+    console.log("Database Connected");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 app.use(AuthRouter)
 
 app.get('/', (req, res) => {
