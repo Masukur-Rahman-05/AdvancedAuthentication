@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -12,13 +14,9 @@ export const Signup = createAsyncThunk(
   "AuthSlice/Signup",
   async ({ formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/signup",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/signup`, formData, {
+        withCredentials: true,
+      });
 
       console.log(response.data);
       return response.data;
@@ -33,8 +31,10 @@ export const VerifyEmail = createAsyncThunk(
   "AuthSlice/verifyEmail",
   async ({ code }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/verify", {
+      const response = await axios.post(`${BASE_URL}/verify`, {
         code,
+      }, {
+        withCredentials: true
       });
 
       console.log(response.data);
@@ -50,13 +50,9 @@ export const Login = createAsyncThunk(
   "AuthSlice/login",
   async ({ formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/login`, formData, {
+        withCredentials: true,
+      });
 
       console.log(response.data);
       return response.data;
@@ -71,7 +67,7 @@ export const checkAuth = createAsyncThunk(
   "/AuthSlice/checkAuth",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3000/check-auth", {
+      const response = await axios.get(`${BASE_URL}/check-auth`, {
         withCredentials: true,
         headers: {
           "Cache-Control":
@@ -91,7 +87,7 @@ export const Logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/logout",
+        `${BASE_URL}/logout`,
         {},
         {
           withCredentials: true, // Required for cookie operations
@@ -109,10 +105,9 @@ export const ForgotPassword = createAsyncThunk(
   "AuthSlice/forgotPassword",
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/forgot-password",
-        { email }
-      );
+      const response = await axios.post(`${BASE_URL}/forgot-password`, {
+        email,
+      });
 
       console.log(response.data);
 
@@ -127,10 +122,9 @@ export const ForgotPassword = createAsyncThunk(
 export const ResetPassword = createAsyncThunk('AuthSlice/resetPassword', async ({ token, password }, { rejectWithValue }) => {
   try {
 
-    const response = await axios.post(
-      `http://localhost:3000/reset-password/${token}`,
-      { password }
-    );
+    const response = await axios.post(`${BASE_URL}/reset-password/${token}`, {
+      password,
+    });
 
     console.log(response.data);
     return response.data

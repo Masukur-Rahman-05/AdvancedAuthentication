@@ -9,14 +9,31 @@ import AuthRouter from './routes/authRoutes.js'
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Allow cookies and auth tokens
-    allowedHeaders: "Content-Type,Authorization,Cache-Control",
-  })
-);
+const corsConfig = {
+  origin: process.env.CLIENT_URL,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allow cookies and auth tokens
+  allowedHeaders: [
+    "Content-Type",
+    "Cache-Control",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
+};
+
+app.use(cors(corsConfig));
+app.options("", cors(corsConfig));
+
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true, // Allow cookies and auth tokens
+//     allowedHeaders: "Content-Type,Authorization,Cache-Control",
+//   })
+// );
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
@@ -30,6 +47,8 @@ const connectDatabase = async () => {
     console.log(error);
   }
 };
+
+connectDatabase();
 
 
 app.use(AuthRouter)
