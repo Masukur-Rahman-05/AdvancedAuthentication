@@ -39,7 +39,21 @@ export const SignUp = async (req, res) => {
     await user.save();
 
     generateJWT(res, user._id);
-    await sendVerificationEmail(user.email, verificationToken);
+    // await sendVerificationEmail(user.email, verificationToken);
+    console.log("Attempting to send verification email..."); // Debug log
+    try {
+      await sendVerificationEmail(user.email, verificationToken);
+      console.log("Verification email sent successfully"); // Debug log
+    } catch (emailError) {
+      console.error("Failed to send verification email:", emailError);
+      return res.status(500).json({
+        success: false,
+        message:
+          "User created but failed to send verification email: " +
+          emailError.message,
+      });
+    }
+
 
     res.status(200).json({
       success: true,
